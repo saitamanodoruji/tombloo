@@ -1086,11 +1086,12 @@ Tombloo.Service.extractors = new Repository([
 				var xpath = (/\.svg$/i).test(ctx.link.href)?
 					'id("file")/a/img/@src':
 					'id("file")/a/@href';
+				var itemUrl = $x(xpath, convertToHTMLDocument(res.responseText));
 				
 				return {
 					type	  : 'photo',
 					item	  : ctx.title,
-					itemUrl : $x(xpath, convertToHTMLDocument(res.responseText))
+					itemUrl : /^\/\//.test(itemUrl)? 'http:' + itemUrl : itemUrl,
 				};
 			});
 		}
